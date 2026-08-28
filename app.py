@@ -58,7 +58,13 @@ def generate_custom_card(image_url, name):
 if st.button("Generate Greeting & Preview"):
     with st.spinner("Generating personalized message and card..."):
         prompt = f"Write a warm, concise, 2-sentence professional birthday message for {emp_name}, a {emp_role} who loves {emp_hobbies}."
-        ai_resp = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+        try:
+    ai_resp = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+    st.session_state["draft_msg"] = ai_resp.text.strip()
+except Exception as e:
+    st.error(f"API Error Details: {e}")
+    # Fallback text so your demo doesn't crash
+    st.session_state["draft_msg"] = f"Wishing you a fantastic birthday, {name}! Thank you for all your hard work as our {role}."
         
         st.session_state["draft_text"] = ai_resp.text.strip()
         st.session_state["card_buffer"] = generate_custom_card(photo_url, emp_name)
