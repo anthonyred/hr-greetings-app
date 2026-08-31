@@ -1,4 +1,5 @@
-streamlit
+streamlit>=1.35.0
+pillow>=10.0.0
+requests>=2.31.0
 google-genai
-Pillow
-requests
+pandas
